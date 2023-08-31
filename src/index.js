@@ -20,4 +20,6 @@ app.get("/video", async (req, res) => {
   fs.createReadStream(videoPath).pipe(res);
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}, point your browser at http://localhost:${PORT}/video`);
+});
