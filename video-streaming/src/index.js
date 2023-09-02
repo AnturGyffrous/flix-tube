@@ -21,5 +21,5 @@ app.get("/video", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}, point your browser at http://localhost:${PORT}/video`);
+  console.log(`video-streaming microservice online`);
 });
