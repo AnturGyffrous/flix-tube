@@ -1,6 +1,13 @@
 version: '3'
 services:
 
+  db:
+    image: mongo:7.0.0
+    container_name: db
+    ports:
+      - "4000:27017"
+    restart: always
+
   azure-storage:
     image: azure-storage
     build:
@@ -8,7 +15,7 @@ services:
       dockerfile: Dockerfile
     container_name: video-storage
     ports:
-      - "4000:80"
+      - "4001:80"
     environment:
       - PORT=80
       - STORAGE_ACCOUNT_NAME=${STORAGE_ACCOUNT_NAME}
@@ -22,7 +29,7 @@ services:
       dockerfile: Dockerfile
     container_name: video-streaming
     ports:
-      - "4001:80"
+      - "4002:80"
     environment:
       - PORT=80
       - VIDEO_STORAGE_HOST=video-storage
