@@ -8,6 +8,14 @@ services:
       - "4000:27017"
     restart: always
 
+  rabbit:
+    image: rabbitmq:3.12.4-management
+    container_name: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+
   video-streaming:
     image: video-streaming
     build:
