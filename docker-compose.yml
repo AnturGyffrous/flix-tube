@@ -52,3 +52,22 @@ services:
       - DBNAME=video-streaming
       - NODE_ENV=development
     restart: "no"
+
+  recommendations:
+    image: recommendations
+    build:
+      context: ./recommendations
+      dockerfile: Dockerfile-dev
+    container_name: recommendations
+    volumes:
+      - ${TMP}/recommendations/npm-cache:/root/.npm:z
+      - ./recommendations/src:/usr/app/src:z
+    ports:
+      - "4003:80"
+    environment:
+      - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
+      - DBHOST=mongodb://db:27017
+      - DBNAME=recommendations
+      - NODE_ENV=development
+    restart: "no"
