@@ -49,7 +49,7 @@ services:
       - PORT=80
       - RABBIT=amqp://guest:guest@rabbit:5672
       - DBHOST=mongodb://db:27017
-      - DBNAME=video-streaming
+      - DBNAME=history
       - NODE_ENV=development
     restart: "no"
 
