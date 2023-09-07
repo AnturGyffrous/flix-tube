@@ -49,7 +49,7 @@ async function main() {
 	//
     // Gets the collection for storing video viewing history.
     //
-    const historyCollection = db.collection("history");
+    const viewsCollection = db.collection("views");
 
     //
     // Connects to the RabbitMQ server.
@@ -88,7 +88,7 @@ async function main() {
 
         const parsedMsg = JSON.parse(msg.content.toString()); // Parse the JSON message.
         
-        await historyCollection.insertOne({ videoPath: parsedMsg.videoPath }); // Record the "view" in the database.
+        await viewsCollection.insertOne({ videoPath: parsedMsg.videoPath }); // Record the "view" in the database.
         console.log(`Added video ${parsedMsg.videoPath} to history.`);
 
         console.log("Acknowledging message was handled.");
@@ -102,7 +102,7 @@ async function main() {
     app.get("/history", async (req, res) => {
         const skip = parseInt(req.query.skip);
         const limit = parseInt(req.query.limit);
-        const history = await historyCollection.find()
+        const history = await viewsCollection.find()
             .skip(skip)
             .limit(limit)
             .toArray();
