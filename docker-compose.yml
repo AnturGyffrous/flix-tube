@@ -27,7 +27,7 @@ services:
       - ./video-streaming/src:/usr/app/src:z
       - ./video-streaming/videos:/usr/app/videos:z
     ports:
-      - "4002:80"
+      - "4000:80"
     environment:
       - PORT=80
       - RABBIT=amqp://guest:guest@rabbit:5672
@@ -63,7 +63,7 @@ services:
       - ${TMP}/recommendations/npm-cache:/root/.npm:z
       - ./recommendations/src:/usr/app/src:z
     ports:
-      - "4003:80"
+      - "4002:80"
     environment:
       - PORT=80
       - RABBIT=amqp://guest:guest@rabbit:5672
