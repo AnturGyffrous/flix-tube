@@ -46,6 +46,7 @@ services:
       - "4001:80"
     environment:
       - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
       - DBHOST=mongodb://db:27017
       - DBNAME=video-streaming
       - NODE_ENV=development
