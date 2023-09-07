@@ -50,7 +50,7 @@ async function main() {
 
     fs.createReadStream(videoPath).pipe(res);
 
-    sendViewedMessage(videoPath); // Sends the "viewed" message to indicate this video has been watched.
+    sendViewedMessage(messageChannel, videoPath); // Sends the "viewed" message to indicate this video has been watched.
   });
 
   app.listen(PORT, () => {
