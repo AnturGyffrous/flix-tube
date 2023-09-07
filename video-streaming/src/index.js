@@ -56,7 +56,10 @@ async function main() {
       "Content-Length": stats.size,
       "Content-Type": "video/mp4",
     });
+
     fs.createReadStream(videoPath).pipe(res);
+
+    sendViewedMessage(videoPath); // Sends the "viewed" message to indicate this video has been watched.
   });
 
   app.listen(PORT, () => {
