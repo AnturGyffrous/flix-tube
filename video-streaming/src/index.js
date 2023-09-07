@@ -1,6 +1,5 @@
 const express = require("express");
-// const http = require("http");
-const fs = require("fs");
+const http = require("http");
 const mongodb = require("mongodb");
 
 //
@@ -54,33 +53,24 @@ async function main() {
       return;
     }
 
-    console.log(`${req.method} Translated id ${videoId} to path ${videoRecord.videoPath}.`);
+    console.log(`Translated id ${videoId} to path ${videoRecord.videoPath}.`);
 
-    const videoPath = `videos/${videoRecord.videoPath}`;
-    const stats = await fs.promises.stat(videoPath);
+    const forwardRequest = http.request( // Forward the request to the video storage microservice.
+      {
+        host: VIDEO_STORAGE_HOST,
+        port: VIDEO_STORAGE_PORT,
+        path: `/video?path=${videoRecord.videoPath}`, // Video path now retrieved from the database.
+        method: 'GET',
+        headers: req.headers
+      },
 
-    res.writeHead(200, {
-      "Content-Length": stats.size,
-      "Content-Type": "video/mp4",
-    });
-    fs.createReadStream(videoPath).pipe(res);
+      forwardResponse => {
+        res.writeHeader(forwardResponse.statusCode, forwardResponse.headers);
+        forwardResponse.pipe(res);
+      }
+    );
 
-    // const forwardRequest = http.request( // Forward the request to the video storage microservice.
-    //   {
-    //     host: VIDEO_STORAGE_HOST,
-    //     port: VIDEO_STORAGE_PORT,
-    //     path: `/video?path=${videoRecord.videoPath}`, // Video path now retrieved from the database.
-    //     method: 'GET',
-    //     headers: req.headers
-    //   },
-
-    //   forwardResponse => {
-    //     res.writeHeader(forwardResponse.statusCode, forwardResponse.headers);
-    //     forwardResponse.pipe(res);
-    //   }
-    // );
-
-    // req.pipe(forwardRequest);
+    req.pipe(forwardRequest);
   });
 
   //
