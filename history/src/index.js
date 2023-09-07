@@ -64,16 +64,26 @@ async function main() {
     const messageChannel = await messagingConnection.createChannel(); 
        
     //
-    // Asserts that we have a "viewed" queue.
+    // Asserts that we have a "viewed" exchange.
     //
-	await messageChannel.assertQueue("viewed", {}) 
+    await messageChannel.assertExchange("viewed", "fanout"); 
 
-    console.log(`Created "viewed" queue.`);
+	//
+	// Creates an anonyous queue.
+	//
+	const { queue } = await messageChannel.assertQueue("", { exclusive: true }); 
+
+    //
+    // Binds the queue to the exchange.
+    //
+    await messageChannel.bindQueue(queue, "viewed", ""); 
+
+    console.log(`Created queue ${queue}, binding it to "viewed" exchange.`);
     
     //
     // Start receiving messages from the "viewed" queue.
     //
-    await messageChannel.consume("viewed", async (msg) => {
+    await messageChannel.consume(queue, async (msg) => {
         console.log("Received a 'viewed' message");
 
         const parsedMsg = JSON.parse(msg.content.toString()); // Parse the JSON message.
