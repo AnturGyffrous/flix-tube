@@ -88,7 +88,7 @@ async function main() {
 
         const parsedMsg = JSON.parse(msg.content.toString()); // Parse the JSON message.
         
-        await viewsCollection.insertOne({ videoPath: parsedMsg.videoPath }); // Record the "view" in the database.
+        await viewsCollection.insertOne({ videoPath: parsedMsg.videoPath, date: new Date() }); // Record the "view" in the database.
         console.log(`Added video ${parsedMsg.videoPath} to history.`);
 
         console.log("Acknowledging message was handled.");
