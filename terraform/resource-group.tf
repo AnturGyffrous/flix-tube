@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "flixtube" {
-  name = "flixtube"
+  name     = "flixtube"
   location = "ukwest"
 }
