@@ -14,8 +14,8 @@ spec:
     spec:
       containers: 
         - name: video-streaming
-          image: video-streaming:1
-          imagePullPolicy: Never
+          image: flixtube.azurecr.io/video-streaming:1
+          imagePullPolicy: IfNotPresent
           env:
             - name: PORT
               value: "4000"
@@ -27,9 +27,8 @@ metadata:
 spec:
   selector:
     app: video-streaming
-  type: NodePort
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
       targetPort: 4000
-      nodePort: 30000
